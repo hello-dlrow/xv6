@@ -16,18 +16,19 @@ void sieve(int p[2]) {
     pipe(next_p);
 
     if (fork() == 0) {
-        sieve(next_p);
+        close(next_p[1]);  // Close the write end in the child process
+        sieve(next_p);     // Child process recursively calls sieve
     } else {
-        close(next_p[0]); // Close the read end of the pipe in the parent process
+        close(next_p[0]);  // Close the read end in the parent process
         while (read(p[0], &n, sizeof(n)) > 0) {
             if (n % prime != 0) {
                 write(next_p[1], &n, sizeof(n));
             }
         }
-        close(next_p[1]);
-        close(p[0]); // Close the read end of the pipe when done
-        wait(0);     // Wait for the child process to finish
-        exit(0);
+        close(next_p[1]);  // Close the write end when done
+        close(p[0]);       // Close the read end of the pipe when done
+        wait(0);           // Wait for the child process to finish
+        exit(0);           // Parent process exits
     }
 }
 
