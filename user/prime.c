@@ -1,52 +1,55 @@
-#include "kernel/types.h"
-#include "kernel/stat.h"
-#include "user/user.h"
+pipe(int *fd*)
+{
+    int num;
+    read(fd, &num, 4);
+    printf(“Thead(%d) prime %d\n”, getpid(), num);
 
-void sieve(int p[2]) {
-    int prime;
-    int n;
-    close(p[1]); // Close the write end of the pipe in the child process
-    if (read(p[0], &prime, sizeof(prime)) == 0) {
-        close(p[0]); // Close the read end of the pipe when done
-        exit(0);
-    }
-    printf("prime %d\n", prime);
-    
-    int next_p[2];
-    pipe(next_p);
-
-    if (fork() == 0) {
-        close(next_p[1]);  // Close the write end in the child process
-        sieve(next_p);     // Child process recursively calls sieve
-    } else {
-        close(next_p[0]);  // Close the read end in the parent process
-        while (read(p[0], &n, sizeof(n)) > 0) {
-            if (n % prime != 0) {
-                write(next_p[1], &n, sizeof(n));
-            }
-        }
-        close(next_p[1]);  // Close the write end when done
-        close(p[0]);       // Close the read end of the pipe when done
-        wait(0);           // Wait for the child process to finish
-        exit(0);           // Parent process exits
-    }
-}
-
-int main(int argc, char *argv[]) {
     int p[2];
     pipe(p);
-
-    if (fork() == 0) {
-        sieve(p);
-    } else {
-        close(p[0]); // Close the read end of the pipe in the parent process
-        for (int i = 2; i <= 35; i++) {
-            write(p[1], &i, sizeof(i));
+    int tmp = -1;
+    while (1) {
+        int n = read(fd, &tmp, 4);
+        if (n<= 0) {
+            break;
         }
-        close(p[1]); // Close the write end of the pipe when done
-        wait(0);     // Wait for the child process to finish
-        exit(0);
+        if (tmp % num != 0) {
+            *//printf(“%d writing %d and n is: %d\n”, getpid(), tmp, n);*
+            write(p[1], &tmp, 4);
+        }
     }
-    return 0;
+    if (tmp == -1) {
+        close(p[1]);
+        close(p[0]);
+        close(fd);
+        return;
+    }
+    int pid = fork();
+    if (pid == 0) {
+        close(p[1]);
+        close(fd);
+        exec_pipe(p[0]);
+        close(p[0]);
+    }
+    else {
+        close(p[1]);
+        close(p[0]);
+        close(fd);
+        wait(0);
+    }
 }
 
+int
+main(int *argc*, char **argv*[])
+{
+  int p[2];
+  pipe(p);
+  for (int i = 2; i<35; i++) {
+      int n = i;
+      write(p[1], &n, 4);
+  }
+  close(p[1]);
+  exec_pipe(p[0]);
+  close(p[0]);
+
+  exit(1);
+}

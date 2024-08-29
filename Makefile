@@ -193,7 +193,7 @@ UPROGS=\
 	$U/_xargs\
 	$U/_sleep\
 	$U/_prime\
-
+	$U/_pingpong\
 
 ifeq ($(LAB),$(filter $(LAB), lock))
 UPROGS += \
