@@ -192,7 +192,7 @@ UPROGS=\
 	$U/_find\
 	$U/_xargs\
 	$U/_sleep\
-
+	$U/_prime\
 
 
 ifeq ($(LAB),$(filter $(LAB), lock))
