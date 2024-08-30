@@ -1,4 +1,4 @@
-#include "types.h"
+  #include "types.h"
 #include "param.h"
 #include "memlayout.h"
 #include "riscv.h"
@@ -688,4 +688,15 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+int
+proc_not_unsed_num(void)
+{
+  int nproc = 0;
+  for (struct proc *p = proc; p < &proc[NPROC]; p++) {
+    if (p->state != UNUSED)
+      nproc++;
+  }
+  return nproc;
 }

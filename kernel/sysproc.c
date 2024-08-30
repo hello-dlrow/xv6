@@ -112,13 +112,15 @@
     //user pointer to si
     uint64 addr;
 
-    int freemem;
+    int freemem, nproc;
 
     argaddr(1, &addr);
 
     freemem = count_free_mem();
+    nproc = proc_not_used_num();
 
     si.freemem = freemem;  
+    si.nproc = nproc;
 
     if (copyout(p->pagetable, addr, (char *)&si, sizeof(si)) < 0)
       {return -1;}
