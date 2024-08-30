@@ -120,7 +120,7 @@
 
     si.freemem = freemem;  
 
-    if(copyout(p->pagetable, addr, (char *)&si, sizeof(si)) < 0);
+    if (copyout(p->pagetable, addr, (char *)&si, sizeof(si)) < 0)
       {return -1;}
     return 0;
   }
