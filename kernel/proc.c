@@ -691,7 +691,7 @@ procdump(void)
 }
 
 int
-proc_not_unsed_num(void)
+proc_not_used_num(void)
 {
   int nproc = 0;
   for (struct proc *p = proc; p < &proc[NPROC]; p++) {
