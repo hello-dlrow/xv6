@@ -113,9 +113,9 @@
 
     argaddr(1, &addr);
 
-    si.freemem = count_free_mem()
+    si.freemem = count_free_mem();
 
-    if(copyout(p->pagetable, addr, (int *)&si, sizeof(si)) < -1)
+    if(copyout(p->pagetable, addr, (int *)&si, sizeof(si)) < -1);
       return -1;
     return 0;
   }
