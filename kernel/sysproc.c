@@ -114,7 +114,7 @@
 
     int freemem, nproc;
 
-    argaddr(1, &addr);
+    argaddr(0, &addr);
 
     freemem = count_free_mem();
     nproc = proc_not_used_num();
