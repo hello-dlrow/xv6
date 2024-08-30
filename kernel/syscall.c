@@ -128,6 +128,7 @@ static uint64 (*syscalls[])(void) = {
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
 [SYS_trace]   sys_trace,
+[SYS_sysinfo] sys_sysinfo,
 };
 
 // the system call name index array
@@ -154,6 +155,7 @@ static char* syscalls_name[] = {
 [SYS_mkdir]   "syscall mkdir",
 [SYS_close]   "syscall close",
 [SYS_trace]   "syscall trace",
+[SYS_sysinfo] "syscall sysinfo"
 };
 
 void
