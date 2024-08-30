@@ -105,6 +105,17 @@
 
   uint64
   sys_sysinfo(void){
+    struct proc *p = myproc(); 
+    struct sysinfo si;
+
+    uint64 addr;
+
+    argaddr(1, &addr);
+
+    si.freemem = count_free_mem();
+
+    if(copyout(p->pagetable, addr, (int *)&si, sizeof(si)) < -1)
+      return -1;
     return 0;
   }
 
